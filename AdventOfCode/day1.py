@@ -13,16 +13,16 @@ class LocationDistanceCalculator:
 
 
 def read_input_file():
-    left_list = []
-    right_list = []
+    l_list = []
+    r_list = []
 
     with open("./day1input.txt", "r") as file:
         for line in file:
             left, right = map(int, line.split())
-            left_list.append(left)
-            right_list.append(right)
+            l_list.append(left)
+            r_list.append(right)
 
-    return left_list, right_list
+    return l_list, r_list
 
 
 left_list, right_list = read_input_file()
