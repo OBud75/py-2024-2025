@@ -1,6 +1,3 @@
-import math
-
-
 class GameOver(Exception):
     def __init__(self, message):
         super().__init__(message)
@@ -38,6 +35,17 @@ class Board:
         )
         return any(all(cell == player for cell in line) for line in lines)
 
+    def is_full(self) -> bool:
+        return not any(cell == " " for row in self.position for cell in row)
+
+    def make_move(self, pos_y: int, pos_x: int, player: str) -> "Board":
+        new_board = Board([row[:] for row in self.position])
+        new_board.position[pos_y][pos_x] = player
+        return new_board
+
+    def get_empty_cells(self) -> list[tuple[int, int]]:
+        return self.empty_cells
+
     def play_turn(self, player: str, pos_y: int, pos_x: int):
         if self.position[pos_y][pos_x] != " ":
             raise ValueError("Cell is already taken")
@@ -48,31 +56,33 @@ class Board:
         if not self.empty_cells:
             raise GameOver("Draw")
 
-    def minimax(self, is_maximizing: bool) -> int:
-        if self.is_won("O"):
-            return 1
-        if self.is_won("X"):
-            return -1
-        if not self.empty_cells:
+    def minimax(self, board, depth: int, is_maximizing: bool) -> int:
+        if board.is_won("X"):
+            return -10 + depth
+        if board.is_won("O"):
+            return 10 - depth
+        if board.is_full():
             return 0
 
-        best_score = -math.inf if is_maximizing else math.inf
-        for y, x in self.empty_cells:
-            self.position[y][x] = "O" if is_maximizing else "X"
-            score = self.minimax(not is_maximizing)
-            self.position[y][x] = " "
-            best_score = (
-                max(score, best_score) if is_maximizing else min(score, best_score)
-            )
-        return best_score
+        if is_maximizing:
+            best_score = -float("inf")
+            for row, col in board.get_empty_cells():
+                result = self.minimax(board.make_move(row, col, "O"), depth + 1, False)
+                best_score = max(best_score, result)
+            return best_score
+        else:
+            best_score = float("inf")
+            for row, col in board.get_empty_cells():
+                result = self.minimax(board.make_move(row, col, "X"), depth + 1, True)
+                best_score = min(best_score, result)
+            return best_score
 
     def best_move(self) -> tuple[int, int]:
-        best_score = -math.inf
+        best_score = -float("inf")
         move = None
-        for y, x in self.empty_cells:
-            self.position[y][x] = "O"
-            score = self.minimax(False)
-            self.position[y][x] = " "
+        for row, col in self.get_empty_cells():
+            test_board = self.make_move(row, col, "O")
+            score = self.minimax(test_board, 0, False)
             if score > best_score:
-                best_score, move = score, (y, x)
+                best_score, move = score, (row, col)
         return move
