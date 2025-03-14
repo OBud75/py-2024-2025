@@ -15,6 +15,10 @@ def count_safe_reports():
             report = list(map(int, line.split()))
             if is_safe(report):
                 safe_count += 1
+        # On peut faire une compréhension de liste avec condition, cela ressemblerait à quelque chose comme
+        # sum(1 for report in [list(map(int, line.split())) for line in file] if is_safe(report))
+        # Ou en regardant le nombre de reports dans la liste des reports qui sont safe.
+        # len([report for report in [list(map(int, line.split())) for line in file] if is_safe(report)])
 
     return safe_count
 

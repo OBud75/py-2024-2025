@@ -13,6 +13,7 @@ class LocationSimilarityCalculator:
         similarity_score = sum(left * right_count[left] for left in self.left_list)
 
         return similarity_score
+        # Les commentaires ici n'ajoutent rien, ils sont donc en trop.
 
 
 def read_input_file():

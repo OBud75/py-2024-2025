@@ -23,6 +23,14 @@ def find_all_occurrences(grid, word):
         for j in range(cols):
             if grid[i][j] == word[0]:
                 total_count += count_from_position(i, j)
+    # Prennez l'habitude d'utiliser sum()
+    # return sum(
+    #     count_from_position(i, j)
+    #     for i in range(rows)
+    #     for j in range(cols)
+    #     if grid[i][j] == word[0]
+    # )
+    # Regardez du côté des générateurs, compréhensions de listes, iterateurs etc.
 
     return total_count
 

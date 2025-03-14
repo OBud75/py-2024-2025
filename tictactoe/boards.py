@@ -14,6 +14,7 @@ class Board:
     @classmethod
     def new(cls):
         return cls()
+    # Pas vraiment utile du coup.
 
     @property
     def empty_cells(self) -> list[tuple[int, int]]:
@@ -45,6 +46,9 @@ class Board:
 
     def get_empty_cells(self) -> list[tuple[int, int]]:
         return self.empty_cells
+        # empty_cells est publique (par convention on préfixe d'un _ les variables privées)
+        # Dans tous les cas ici empty_cells est une propriété, on ne peut donc pas faire
+        # board.empty_cells = toto et c'est surtout ca qui compte dans l'aspect public/privé.
 
     def play_turn(self, player: str, pos_y: int, pos_x: int):
         if self.position[pos_y][pos_x] != " ":
@@ -53,6 +57,10 @@ class Board:
 
         if self.is_won(player):
             raise GameOver(f"{player} won")
+            # Gardez raise pour les erreurs ici on peut quit(f"{player} won") par exemple.
+            # Créer vos propres exceptions adaptées au programmes est apprécié.
+            # Typiquement une exception CoordinatesOutOfBoard, CellDoesNotExists
+            # ou meme CellAlreadyTaken aurait peut être été plus approprié.
         if not self.empty_cells:
             raise GameOver("Draw")
 

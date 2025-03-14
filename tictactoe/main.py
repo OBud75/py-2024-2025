@@ -57,6 +57,31 @@ def main():
     root = tk.Tk()
     app = TicTacToeApp(root)
     root.mainloop()
+    # C'est un très bon début (injection de tk.Tk() en paramètre de l'app)
+    # Pour aller plus loin, on aime bien séparer complètement la partie "vue" de la partie logique.
+    # C'est surtout
+    # self.buttons = [[None for _ in range(3)] for _ in range(3)]
+    # self.create_widgets()
+    # qui me fait dire ca : ici vous avez choisi une classe TicTacToeApp composée d'un Board et d'une vue tk.Tk()
+    # Typiquement ici si on fait un Board de 4*4 au lieu de 3*3 il faudrait tout changer.
+    # On peut par exemple imaginer une classe Graphics qui hérite de tk.Tk et c'est elle qui serait chargée
+    # de create_widgets en fonction du Board.
+    # La classe TicTacToeApp aurait toujours lieu d'être, simplement cela ressemblerait à quelque chose comme
+    # class TicTacToeApp:
+    #   def __init__(self, graphic_class):
+    #       self.board = Board.new()
+    #       self.graphic = graphic_class(board)
+    #       self.graphic.create_widgets()
+    #
+    # et dans la class Graphic quelque chose comme
+    # def create_widgets(self):
+    #   for row in range(self.board.height):
+    #       for col in range(self.board.width):
+    #           ...
+    #
+    # D'autres implémentations seraient possible,
+    # l'important est que cela soit logique, adapté au problème
+    # et simple à maintenir en cas de modifications
 
 
 if __name__ == "__main__":

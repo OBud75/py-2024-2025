@@ -32,5 +32,6 @@ def find_middle_page(file_name: str):
 
     return ans
 
-
+# Un peu les mêmes remarques que pour les autres jours:
+# regardez enumerate, les iterateurs, générateurs et compréhensions de listes
 print(find_middle_page("day5input.txt"))

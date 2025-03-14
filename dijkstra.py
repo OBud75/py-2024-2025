@@ -7,12 +7,19 @@ class Graph:
     def add_node(self, node):
         if node not in self.nodes:
             self.nodes[node] = {}
+        # On aura tendance à préférer la notation
+        # if not node in self.nodes
 
     def add_edge(self, source, target, weight):
         if source not in self.nodes:
             self.add_node(source)
         if target not in self.nodes:
             self.add_node(target)
+        # On vérifie déjà si c'est le noeud est dans self.nodes dans la méthode add_node
+        for node in [source, target]:
+            self.add_node(node)
+        # Devrait suffire
+
         self.nodes[source][target] = weight
 
     def get_neighbors(self, node):
@@ -50,6 +57,7 @@ class Dijkstra:
         while current is not None:
             path.insert(0, current)
             current = previous_nodes[current]
+        # https://docs.python.org/3/library/queue.html
 
         if distances[end] == float('inf'):
             return None, float('inf')
@@ -65,3 +73,5 @@ graph.add_edge("C", "D", 3)
 dijkstra = Dijkstra(graph)
 shortest_path, distance = dijkstra.find_shortest_path("A", "D")
 print(f"Chemin le plus court : {shortest_path} avec une distance de {distance}")
+# Si ce genre d'algorythmes vous interesse, je vous conseille de regarder https://cs50.harvard.edu/ai/2024/weeks/0/
+# Ainsi que la librairie https://docs.scipy.org/doc/scipy/

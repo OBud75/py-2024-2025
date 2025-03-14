@@ -19,6 +19,7 @@ def read_input_file():
     with open("./day1input.txt", "r") as file:
         for line in file:
             left, right = map(int, line.split())
+            # La fonction enumerate pourrait être vous être utile ici.
             l_list.append(left)
             r_list.append(right)
 
